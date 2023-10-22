@@ -1,0 +1,75 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AccessTokenDto {
+  access_token: String!
+
+  """token expiration in seconds"""
+  expires_in: Float!
+  token_type: String!
+}
+
+"""Represents an article."""
+type ArticleDto {
+  """The ID of the article."""
+  articleId: String!
+
+  """The title of the article."""
+  title: String!
+
+  """The perex (short summary) of the article."""
+  perex: String!
+
+  """The ID of the image associated with the article."""
+  imageId: String!
+
+  """Timestamp representation of article datetime creation."""
+  createdAt: DateTime!
+
+  """The content of the article."""
+  content: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  comments: String!
+}
+
+type Mutation {
+  """Sign in into the application"""
+  login(input: LoginDto!): AccessTokenDto!
+
+  """Update an article."""
+  updateArticle(input: ArticleUpdateInput!): ArticleDto!
+
+  """Remove an article."""
+  removeArticle(id: String!): Boolean!
+}
+
+input LoginDto {
+  username: String!
+  password: String!
+}
+
+"""Input type for updating an article."""
+input ArticleUpdateInput {
+  """The ID of the article."""
+  id: String!
+
+  """The title of the article."""
+  title: String
+
+  """The perex (short summary) of the article."""
+  perex: String
+
+  """The content of the article."""
+  content: String
+
+  """The ID of the image associated with the article."""
+  imageId: String
+}
