@@ -9,6 +9,7 @@ import { GlobalService } from '../../api';
 import styled from '@emotion/styled';
 import { alignCenter, row } from '../../styles/shared';
 import { css } from '@emotion/react';
+import useArticlesCountStore from '../../stores/useArticlesCountStore';
 
 const FormWrapper = styled.div`
   label {
@@ -34,6 +35,7 @@ const CreateArticleForm = () => {
   const { t } = useTranslation('articles');
   const { t: tCommon } = useTranslation('common');
   const axios = useAxios();
+  const { increase } = useArticlesCountStore();
 
   const [triggerPopup, setTriggerPopup] = useState<{
     type: PopupType;
@@ -70,6 +72,8 @@ const CreateArticleForm = () => {
       if (!article) {
         throw new Error();
       }
+
+      increase();
 
       setTriggerPopup({
         type: PopupType.Success,

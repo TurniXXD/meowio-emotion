@@ -1,10 +1,10 @@
 import { ReactNode, createContext, useContext, useMemo } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { EnumCookies, useCookie } from './cookies';
 import { GlobalService, LoginDto } from '../api';
 import { initAxiosInstance } from '../api/config';
-import { parseCookieExpirationSeconds } from '../auth/cookies';
 import jwt_decode from 'jwt-decode';
+import useCookieStore, { EnumCookies } from '../stores/useCookieStore';
+import { parseCookieExpirationSeconds } from '../utils';
 
 export interface ILoginProps {
   username: string;
@@ -24,7 +24,11 @@ const AuthContext = createContext({
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [authCookie, setAuthCookie] = useCookie(EnumCookies.Auth, '');
+  const {
+    cookies: { auth: authCookie },
+    setCookie,
+  } = useCookieStore();
+
   const navigate = useNavigate();
 
   const login = async (data: LoginDto) => {
@@ -35,7 +39,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       throw new Error('login failed');
     }
 
-    setAuthCookie(res?.access_token, {
+    setCookie(EnumCookies.Auth, res?.access_token, {
       expires: parseCookieExpirationSeconds(res.expires_in),
     });
     initAxiosInstance(res?.access_token);
@@ -44,18 +48,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    setAuthCookie('');
+    setCookie(EnumCookies.Auth, '');
     navigate('/', { replace: true });
   };
 
   const isOwner = () => {
+    if (!authCookie) {
+      return false;
+    }
+
     const decodedToken = jwt_decode(authCookie) as JwtPayload;
     return decodedToken?.owner === true;
   };
 
   const value = useMemo(
     () => ({
-      authCookie,
+      authCookie: authCookie || '',
       isOwner,
       login,
       logout,

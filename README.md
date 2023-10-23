@@ -67,7 +67,7 @@ mutation login($username: String!, $password: String!) {
 8. Connect to DB and synchronize
 9. Create API routes
 10. Setup authorization on server
-11. Setup swagger
+11. Setup swagger (available on [http://localhost:8080/api](http://localhost:8080/api))
 12. Setup client - server authorization
 13. Image upload
 14. Create article

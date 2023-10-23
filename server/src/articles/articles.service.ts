@@ -59,6 +59,10 @@ export class ArticlesService {
     };
   }
 
+  async count(): Promise<number> {
+    return await this.articlesRepository.count();
+  }
+
   async update(input: ArticleUpdateInput) {
     const { id, ...rest } = input;
     await this.articlesRepository.update(id, rest);

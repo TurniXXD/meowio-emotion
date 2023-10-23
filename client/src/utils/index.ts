@@ -26,3 +26,9 @@ export const formatDate = (date: Date) => {
   const formattedDate = `${day}/${month}/${year}`;
   return formattedDate;
 };
+
+export const parseCookieExpirationSeconds = (expiration: number) => {
+  const expirationSeconds = new Date(new Date().getTime() + expiration * 1000);
+  return expirationSeconds;
+};
+

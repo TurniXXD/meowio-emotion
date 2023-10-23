@@ -15,7 +15,11 @@ import { TokenAuthGuard, OwnerTokenAuthGuard } from '@auth/auth.guard';
 import { MiddlewareService } from '@middleware/middleware.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { swagger } from '@utils/constants';
-import { ArticleDto, ArticleDtoPreview } from './dto/articles.dto';
+import {
+  ArticleCount,
+  ArticleDto,
+  ArticleDtoPreview,
+} from './dto/articles.dto';
 
 @Controller('articles')
 export class ArticlesController {
@@ -54,6 +58,20 @@ export class ArticlesController {
   @Get()
   findAll(): Promise<Array<ArticleDtoPreview>> {
     return this.articlesService.findAll();
+  }
+
+  @ApiOperation({ summary: 'Get articles count' })
+  @ApiResponse(swagger.apiResponses.unathorized)
+  @ApiResponse(swagger.apiResponses.forbidden)
+  @UseGuards(TokenAuthGuard)
+  @Get('/count')
+  @ApiResponse({
+    status: 200,
+    description: 'Total articles count',
+    type: ArticleCount,
+  })
+  async count(): Promise<ArticleCount> {
+    return { count: await this.articlesService.count() };
   }
 
   @ApiOperation({ summary: 'Get an article by ID' })

@@ -9,6 +9,7 @@ import {
   Row,
 } from '../../styles/shared';
 import { Colors } from '../../styles/variables';
+import useArticlesCountStore from '../../stores/useArticlesCountStore';
 
 const NavWrapper = styled.nav`
   ${container}
@@ -36,9 +37,23 @@ const NavWrapper = styled.nav`
   }
 `;
 
+const ArticlesCount = styled.span`
+  width: 20px;
+  height: 20px;
+  background-color: ${Colors.bgDark};
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  margin-left: 10px;
+`;
+
 const Nav = () => {
   const { t } = useTranslation('common');
   const { authCookie: isLoggedIn, isOwner } = useAuth();
+  const { articlesCount } = useArticlesCountStore();
 
   return (
     <NavWrapper>
@@ -72,6 +87,9 @@ const Nav = () => {
               className={({ isActive }) => (isActive ? 'active' : 'inactive')}
             >
               {t('myArticles')}
+              {articlesCount !== 0 && (
+                <ArticlesCount>{articlesCount}</ArticlesCount>
+              )}
             </NavLink>
             <NavLink
               to="/create-article"

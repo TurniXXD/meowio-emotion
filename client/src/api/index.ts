@@ -280,22 +280,12 @@ export class ArticlesService {
       axios(configs, resolve, reject);
     });
   }
-}
-
-export class ImagesService {
   /**
-   *
+   * Get articles count
    */
-  static images(
-    params: {
-      /**  */
-      id: string;
-    } = {} as any,
-    options: IRequestOptions = {}
-  ): Promise<any> {
+  static count(options: IRequestOptions = {}): Promise<ArticleCount> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/images/{id}';
-      url = url.replace('{id}', params['id'] + '');
+      let url = basePath + '/articles/count';
 
       const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
@@ -304,10 +294,13 @@ export class ImagesService {
       axios(configs, resolve, reject);
     });
   }
+}
+
+export class ImagesService {
   /**
    *
    */
-  static images1(
+  static images(
     params: {
       /**  */
       id: string;
@@ -405,6 +398,11 @@ export interface ArticleDtoPreview {
 
   /**  */
   lastUpdatedAt?: Date;
+}
+
+export interface ArticleCount {
+  /**  */
+  count?: number;
 }
 
 export interface UpdateArticleDto {}

@@ -10,11 +10,27 @@ import Article from './pages/Article';
 import Nav from './components/Nav';
 import { ProtectedRoute } from './auth';
 import { initAxiosInstance } from './api/config';
-import { EnumCookies, useCookie } from './auth/cookies';
+import useCookieStore from './stores/useCookieStore';
+import useArticlesCountStore from './stores/useArticlesCountStore';
+import { useEffect } from 'react';
+import { ArticlesService } from './api';
 
 const App = () => {
-  const [authCookie] = useCookie(EnumCookies.Auth, '');
-  initAxiosInstance(authCookie && authCookie);
+  const { cookies } = useCookieStore();
+  const { setArticlesCount } = useArticlesCountStore();
+
+  initAxiosInstance(cookies.auth);
+
+  // This is just to test out zustand
+  useEffect(() => {
+    if (cookies.auth) {
+      const fetchArticlesCount = async () => {
+        const articlesCount = await ArticlesService.count();
+        setArticlesCount(articlesCount.count || 0);
+      };
+      fetchArticlesCount();
+    }
+  }, [cookies, setArticlesCount]);
 
   return (
     <>

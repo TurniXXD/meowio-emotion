@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { serviceOptions } from './serviceOptions';
-import { EnumCookies, useCookie } from '../auth/cookies';
+import useCookieStore from '../stores/useCookieStore';
 
 export const initAxiosInstance = (token?: string) => {
   const configuredAxios = axios.create({
@@ -17,7 +17,9 @@ export const initAxiosInstance = (token?: string) => {
 };
 
 export const useAxios = () => {
-  const [authCookie] = useCookie(EnumCookies.Auth);
+  const {
+    cookies: { auth: authCookie },
+  } = useCookieStore();
 
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,

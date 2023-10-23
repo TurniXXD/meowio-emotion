@@ -65,3 +65,14 @@ export class ArticleDto extends ArticleDtoPreview {
   })
   content: string;
 }
+
+@ObjectType()
+export class ArticleCount {
+  @ApiProperty({
+    example: '10',
+  })
+  @Field({
+    description: 'Total count of articles.',
+  })
+  count: number;
+}
