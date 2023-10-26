@@ -16,13 +16,14 @@ export enum BadgeType {
   Dark = 'dark',
 }
 
-interface CardProps {
+interface BadgeProps {
   type: BadgeType;
   icon?: JSX.Element;
   onClick?: () => void;
   children?: ReactNode;
   text?: string;
   className?: string;
+  dataTestId?: string
 }
 
 const BadgeWrapper = styled.div`
@@ -44,7 +45,8 @@ export default function Badge({
   icon,
   onClick,
   type,
-}: CardProps) {
+  dataTestId
+}: BadgeProps) {
   const resolveBadgeTypeStyles = (type: BadgeType) => {
     switch (type) {
       case BadgeType.Primary:
@@ -97,6 +99,7 @@ export default function Badge({
     <BadgeWrapper
       css={resolverBadgeStyles(type, !!icon)}
       onClick={onClick}
+      data-testid={dataTestId || 'badge'}
       className={className || ''}
     >
       {text ? <span>{text}</span> : children}

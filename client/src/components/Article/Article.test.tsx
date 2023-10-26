@@ -20,7 +20,7 @@ describe('Article Component', () => {
   };
 
   it('renders correctly with all props', () => {
-    const { getByText } = render(
+    render(
       <BrowserRouter>
         <Article props={mockArticle} />
       </BrowserRouter>
@@ -31,7 +31,7 @@ describe('Article Component', () => {
   });
 
   it('renders nothing when any prop is missing', () => {
-    const { queryByText } = render(
+    render(
       <BrowserRouter>
         <Article props={{}} />
       </BrowserRouter>

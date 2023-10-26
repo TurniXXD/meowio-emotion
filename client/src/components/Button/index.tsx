@@ -68,7 +68,7 @@ const BadgeWrapper = styled.div`
   display: block;
 `;
 
-interface UploadButtonProps {
+export interface UploadButtonProps {
   uploadTarget?: UploadTarget;
   registerOptions?: RegisterOptions;
   name: string;
@@ -101,7 +101,7 @@ const Button = ({
       ? uploadButtonProps?.setSelectedFileBadge(file)
       : uploadButtonProps?.setSelectedFileBadge(null);
   };
-
+  const isPrimaryButton = type === ButtonType.Primary;
   const fieldName = uploadButtonProps ? uploadButtonProps.name : 'file';
 
   const handleFileClear = () => {
@@ -112,7 +112,7 @@ const Button = ({
   return (
     <div>
       <ButtonWrapper>
-        {type === ButtonType.Upload && uploadButtonProps?.fieldProps && (
+        {!isPrimaryButton && uploadButtonProps?.fieldProps && (
           <input
             {...uploadButtonProps.fieldProps(
               fieldName,
@@ -123,15 +123,19 @@ const Button = ({
             })}
             type="file"
             onChange={handleFileChange}
+            data-testid={dataTestId || 'button-upload'}
           />
         )}
         <ButtonStyled
           className={`${textOnly ? 'textOnlyButton' : ''} ${
-            type === ButtonType.Primary ? 'primary' : 'upload'
+            isPrimaryButton ? 'primary' : 'upload'
           }`}
           {...(onClick && { onClick })}
           {...(submit && { type: 'submit' })}
           {...(dataTestId && { 'data-testid': dataTestId })}
+          {...(isPrimaryButton && {
+            'data-testid': dataTestId || 'button-primary',
+          })}
         >
           {children}
         </ButtonStyled>
@@ -139,6 +143,7 @@ const Button = ({
       {uploadButtonProps?.selectedFileBadge && (
         <BadgeWrapper>
           <Badge
+            dataTestId="selected-file-button"
             type={BadgeType.Secondary}
             onClick={handleFileClear}
             icon={<Cancel />}
