@@ -19,7 +19,7 @@ export interface JwtPayload {
 const AuthContext = createContext({
   authCookie: '',
   isOwner: (): boolean => false,
-  login: (data: LoginDto) => {},
+  login: async (data: LoginDto) => {},
   logout: () => {},
 });
 

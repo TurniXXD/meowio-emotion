@@ -48,18 +48,16 @@ const LoginForm = () => {
 
   const { handleSubmit, control } = useForm();
 
-  const onSubmit = (data: any) => {
-    try {
-      login({
-        username: data.email,
-        password: data.password,
-      });
-    } catch (e) {
+  const onSubmit = async (data: any) => {
+    await login({
+      username: data.email,
+      password: data.password,
+    }).catch(() =>
       setTriggerPopup({
         type: PopupType.Error,
-        text: e as string,
-      });
-    }
+        text: t('errors.wrongEmailOrPassword'),
+      })
+    );
   };
 
   return (

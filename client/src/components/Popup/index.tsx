@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
 import { Colors } from '../../styles/variables';
 
 export enum PopupType {
@@ -17,23 +16,27 @@ interface PopupProps {
 
 const PopupWrapper = styled.div`
   position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 10px;
-  padding: 1rem;
+  right: 10%;
+  top: 13%;
   z-index: 1000;
-`;
 
-export const error = css`
-  background-color: ${Colors.bgError};
-`;
+  div {
+    border-radius: 10px;
+    padding: 1rem;
+  }
 
-export const success = css`
-  background-color: ${Colors.bgSuccess};
+  .error {
+    background-color: ${Colors.bgError};
+  }
+
+  .success {
+    background-color: ${Colors.bgSuccess};
+  }
 `;
 
 export default function Popup({ children, className, text, type }: PopupProps) {
   const [visible, setVisible] = useState(true);
+  // const isErrorPopup = type === PopupType.Error ? error : success;
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -43,7 +46,6 @@ export default function Popup({ children, className, text, type }: PopupProps) {
     // Clear the timeout and hide the popup if it's unmounted before the timeout is reached
     return () => {
       clearTimeout(timeout);
-      setVisible(false);
     };
   }, []);
 
@@ -51,10 +53,13 @@ export default function Popup({ children, className, text, type }: PopupProps) {
     <>
       {visible && (
         <PopupWrapper
-          css={type === PopupType.Error ? error : success}
+          css={type === PopupType.Error ? 'error' : 'success'}
           className={className || ''}
+          data-testid={`popup-${type}`}
         >
-          {text || children}
+          <div className={type === PopupType.Error ? 'error' : 'success'}>
+            {text || children}
+          </div>
         </PopupWrapper>
       )}
     </>

@@ -19,5 +19,8 @@
     "emailRequired": "Email is required",
     "passwordRequired": "Password is required",
     "imageRequired": "Image is required"
+  },
+  "errors": {
+    "wrongEmailOrPassword": "Email or password is incorrect"
   }
 }

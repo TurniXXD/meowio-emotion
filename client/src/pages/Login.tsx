@@ -1,7 +1,6 @@
 import LoginForm from '../components/LoginForm';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { justifyCenter } from '../styles/shared';
 import useCookieStore from '../stores/useCookieStore';
 
 const Login = () => {
@@ -18,7 +17,7 @@ const Login = () => {
   }, []);
 
   return (
-    <div css={justifyCenter}>
+    <div>
       <LoginForm />
     </div>
   );

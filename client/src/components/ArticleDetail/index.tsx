@@ -29,8 +29,8 @@ const ContentWrapper = styled.div`
   }
 `;
 
-const Article = ({ props }: { props: ArticleDto }) => {
-  const {
+const Article = ({
+  props: {
     articleId,
     perex,
     content,
@@ -38,8 +38,10 @@ const Article = ({ props }: { props: ArticleDto }) => {
     imageId,
     createdAt,
     lastUpdatedAt,
-  } = props;
-
+  },
+}: {
+  props: ArticleDto;
+}) => {
   if (
     articleId &&
     perex &&
@@ -53,8 +55,7 @@ const Article = ({ props }: { props: ArticleDto }) => {
       <ArticleWrapper>
         <h1>{title}</h1>
         <InfoWrapper>
-          Elisabeth Strain •{' '}
-          <span>{formatDate(createdAt)}</span>
+          Elisabeth Strain • <span>{formatDate(createdAt)}</span>
         </InfoWrapper>
         <ImageWrapper>
           <img src={resolveImageUrl(imageId)} alt={imageId} />
